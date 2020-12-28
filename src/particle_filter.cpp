@@ -31,7 +31,7 @@ void ParticleFilter::init(
   double x, double y, double theta, double std[]
 ) {
   Particle p;
-  num_particles = 100;  // TODO: Set the number of particles
+  num_particles = 1000;  // TODO: Set the number of particles
 
   // Create a normal (Gaussian) distribution for x, y, and theta, resp.
   std::default_random_engine gen;
@@ -59,13 +59,19 @@ void ParticleFilter::prediction(
   double delta_t, double std_pos[], double velocity, double yaw_rate
 ) {
   std::default_random_engine gen;
+  double xf, yf, tf;
   double v_yr = velocity / yaw_rate; // vel over yaw_rate
   double yr_dt = yaw_rate * delta_t; // yaw_rate times dt
-
   for (auto& p : particles) {
-    double xf = p.x + v_yr * (sin(p.theta + yr_dt) - sin(p.theta));
-    double yf = p.y + v_yr * (cos(p.theta) - cos(p.theta + yr_dt));
-    double tf = p.theta + yr_dt;
+    if (fabs(yaw_rate) < 0.0001) {
+      xf = p.x + velocity * delta_t * cos(p.theta);
+      yf = p.y + velocity * delta_t * sin(p.theta);
+      tf = p.theta;
+    } else {
+      xf = p.x + v_yr * (sin(p.theta + yr_dt) - sin(p.theta));
+      yf = p.y + v_yr * (cos(p.theta) - cos(p.theta + yr_dt));
+      tf = p.theta + yr_dt;
+    }
     std::normal_distribution<double> dist_x(xf, std_pos[0]);
     std::normal_distribution<double> dist_y(yf, std_pos[1]);
     std::normal_distribution<double> dist_theta(tf, std_pos[2]);
