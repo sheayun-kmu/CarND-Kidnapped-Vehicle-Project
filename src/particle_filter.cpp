@@ -161,7 +161,7 @@ void ParticleFilter::updateWeights(
       total_weight *= prob;
     }
     // Set the weight for this particle
-    weights[i] = total_weight;
+    particles[i].weight = weights[i] = total_weight;
   } // end for each particle
 }
 
