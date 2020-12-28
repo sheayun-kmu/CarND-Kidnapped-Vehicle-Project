@@ -31,7 +31,7 @@ void ParticleFilter::init(
   double x, double y, double theta, double std[]
 ) {
   Particle p;
-  num_particles = 3;  // TODO: Set the number of particles
+  num_particles = 100;  // TODO: Set the number of particles
 
   // Create a normal (Gaussian) distribution for x, y, and theta, resp.
   std::default_random_engine gen;
@@ -48,6 +48,8 @@ void ParticleFilter::init(
     p.weight = 1.0;
     particles.push_back(p);
   }
+  weights.resize(num_particles, 0.0);
+  is_initialized = true;
 }
 
 /**
@@ -106,7 +108,7 @@ vector<LandmarkObs> ParticleFilter::dataAssociation(
   return associations;
 }
 
-/*
+/**
  * Update the weights of each particle using a multi-variate
  * Gaussian distribution.
  */
