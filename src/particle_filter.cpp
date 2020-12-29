@@ -34,7 +34,8 @@ void ParticleFilter::init(
   num_particles = 100;  // TODO: Set the number of particles
 
   // Create a normal (Gaussian) distribution for x, y, and theta, resp.
-  std::default_random_engine gen;
+  std::random_device rd;
+  std::default_random_engine gen(rd());
   std::normal_distribution<double> dist_x(x, std[0]);
   std::normal_distribution<double> dist_y(y, std[1]);
   std::normal_distribution<double> dist_theta(theta, std[2]);
@@ -58,7 +59,8 @@ void ParticleFilter::init(
 void ParticleFilter::prediction(
   double delta_t, double std_pos[], double velocity, double yaw_rate
 ) {
-  std::default_random_engine gen;
+  std::random_device rd;
+  std::default_random_engine gen(rd());
   double xf, yf, tf;
   double v_yr = velocity / yaw_rate; // vel over yaw_rate
   double yr_dt = yaw_rate * delta_t; // yaw_rate times dt
@@ -176,7 +178,8 @@ void ParticleFilter::updateWeights(
  *   to their weights.
  */
 void ParticleFilter::resample() {
-  std::default_random_engine gen;
+  std::random_device rd;
+  std::default_random_engine gen(rd());
   std::discrete_distribution<> d(weights.begin(), weights.end());
   vector<Particle> previous = particles;
   particles.clear();
