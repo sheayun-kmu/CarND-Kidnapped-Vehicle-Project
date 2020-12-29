@@ -31,7 +31,7 @@ void ParticleFilter::init(
   double x, double y, double theta, double std[]
 ) {
   Particle p;
-  num_particles = 1000;  // TODO: Set the number of particles
+  num_particles = 100;  // TODO: Set the number of particles
 
   // Create a normal (Gaussian) distribution for x, y, and theta, resp.
   std::default_random_engine gen;
